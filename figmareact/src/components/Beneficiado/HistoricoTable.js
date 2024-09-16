@@ -7,23 +7,21 @@ function HistoricoTable({ data, onEdit, onDelete }) {
     <table className={styles.historicoTable}>
       <thead>
         <tr>
-          <th>CodNis</th>
+          <th>Beneficiario</th>          
+          <th>Nis</th>
           <th>CPF</th>
           <th>Endereço</th>
           <th>Telefone</th>
-          <th>Username</th>
-
         </tr>
       </thead>
       <tbody>
         {data.map((item, index) => (
           <tr key={index}>
-
-            <td>{item.codnis}</td>
-            <td>{item.endereco}</td>
-            <td>{item.cpf}</td>
-            <td>{item.telefone}</td>
             <td>{item.username}</td>
+            <td>{item.nis}</td>
+            <td>{item.cpf}</td>
+            <td>{item.endereco}</td>
+            <td>{item.telefone}</td>
             <td>
               <Button
                 className={`${styles.actionButton} ${styles.editButton}`}

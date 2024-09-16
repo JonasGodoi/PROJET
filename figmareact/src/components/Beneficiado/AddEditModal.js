@@ -3,7 +3,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 
 function AddEditModal({ show, handleClose, title, item, onSave }) {
 
-
+  const [nis, setNis] = useState("");
   const [endereco, setEndereco] = useState("");
   const [cpf, setCpf] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -12,7 +12,7 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
   useEffect(() => {
     if (item) {
       setEndereco(item.endereco || "");
-      setNis(item.nis || "")
+      setNis(item.nis || "");
       setCpf(item.cpf || "");
       setTelefone(item.telefone || "");
       setUsername(item.username || "");
@@ -21,6 +21,7 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
 
   const handleSave = () => {
     const newItem = {
+      nis,
       endereco,
       cpf,
       telefone,
@@ -38,14 +39,22 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
       <Modal.Body>
         <Form>
           <Form.Group controlId="formUsername">
-            <Form.Label>Username</Form.Label>
+            <Form.Label>Beneficiario</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Username"
+              placeholder="Beneficiario"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-
+          </Form.Group>
+          <Form.Group controlId="formNis">
+            <Form.Label>NIS</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Código NIS"
+              value={nis}
+              onChange={(e) => setNis(e.target.value)}
+            />
           </Form.Group>
           <Form.Group controlId="formEndereco">
             <Form.Label>Endereço</Form.Label>

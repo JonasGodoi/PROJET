@@ -115,7 +115,7 @@ function HistoricoList() {
         onDelete={handleShowDeleteModal}
       />
 
-      <Pagination 
+      <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onSelectPage={setCurrentPage}

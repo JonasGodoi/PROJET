@@ -32,6 +32,11 @@ public class Beneficiario {
     @Column(name = "cod_nis", nullable = false, unique = true)
     private Long id;
 
+    @Column(name = "NIS", unique = true, nullable = false, insertable = true, updatable =false, length = 11 )
+    @NotBlank
+    @Size(min = 11, max =11)
+    private String nis;
+
     @Column(name = "username", unique = true, nullable = false, insertable = true, updatable =false, length = 50 )
     @NotBlank
     @Size(min = 2, max = 50)
