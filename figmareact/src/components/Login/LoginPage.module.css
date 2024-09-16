@@ -1,0 +1,159 @@
+.loginPage {
+    background-color: #ffffff;
+    display: flex;  
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 200px 250px;
+    transform: scale(1.2);
+  }
+  
+  @media (max-width: 500px) {
+    .loginPage {
+      padding: 300px 200px;
+    }
+  }
+  
+  .loginContainer {
+    border-radius: 16px;
+    background-color: #fff;
+    box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.25); 
+    width: 950px;
+    max-width: 100%;
+    display: flex;
+    height: 500px;
+  }
+  
+  @media (max-width: 500px) {
+    .loginContainer {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .sidebar {
+      flex-direction: column;
+    }
+  }
+  
+  .sidebar {
+    border-radius: 16px 0 0 16px;
+    background: linear-gradient(#67AE37, #4A8920);
+    display: center;
+    flex-grow: 1;
+    flex-direction: column;
+    color: #fff;
+    text-align: center;
+    width: 24%;
+    font: 800 20px Inter, sans-serif;
+  }
+  
+  @media (max-width: 991px) {
+    .sidebar {
+      width: 100%;
+      border-radius: 16px 16px 0 0;
+    }
+  }
+  
+  .logo {
+    aspect-ratio: 3.38;
+    object-fit: contain;
+    object-position: center;
+    background-color: #fff;
+    width: 232px;
+    border-radius: 16px 0 0 0;
+  }
+  @media(max-width: 500px){
+    .logo{
+      width: 100%;
+    }
+  }
+  .departmentName {
+    margin-top: 120px;
+  }
+  
+  @media (max-width: 50px) {
+    .departmentName {
+      margin-top: 40px;
+    }
+  }
+  
+  .mainContent {
+    flex-grow: 1;
+    padding: 40px 80px 40px 40px;
+    width: 76%;
+  }
+  
+  @media (max-width: 991px) {
+    .mainContent {
+      width: 100%;
+      padding: 40px;
+    }
+  }
+  
+  .formTitle {
+    color: #67a140;
+    text-align: center;
+    font: 800 20px Inter, sans-serif;
+    margin-bottom: 100px;
+    font-size: 28px;
+    height: 40px;
+  }
+  
+  .inputGroup {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #4f9122;
+    padding: 18px 13px;
+    height: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .inputIcon {
+    width: 14px;
+    height: 16px;
+    margin-right: 11px;
+  }
+  
+  .input {
+    color: #000000;
+    flex-grow: 1;
+    font: 1100 10px Inter, sans-serif;
+    border: none;
+    background: transparent;
+    outline: none;
+  }
+  
+  .submitButton {
+    border-radius: 30px;
+    background-color: #fff;
+    color: #4f9122;
+    text-align: center;
+    font: 800 15px Inter, sans-serif;
+    border: 1px solid #4f9122;
+    padding: 15px 58px;
+    cursor: pointer;
+    margin: 40px auto 0;
+    display: block;
+  }
+  
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .errorMessage {
+    color: #000000; /* Cor vermelha para a mensagem de erro */
+    font-size: 14px; /* Tamanho da fonte */
+    margin-top: 10px; /* Espaçamento acima da mensagem */
+    text-align: center; /* Centraliza a mensagem */
+  }
+  
