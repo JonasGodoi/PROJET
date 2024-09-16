@@ -8,12 +8,11 @@ export function HistoricoTable({ items, onEdit, onDelete }) {
       <thead>
         <tr>
           <th>CodReq</th>
-          <th>Descrição</th>
+          <th>Data</th>
+          <th>Descricao</th>
           <th>Status</th>
-          <th>CodNIS</th>
-          <th>CodBeneficio</th>
-          <th>Date</th>
-          <th>Ações</th>
+          <th>CodNis</th>
+          <th>CodB</th>
         </tr>
       </thead>
       <tbody>

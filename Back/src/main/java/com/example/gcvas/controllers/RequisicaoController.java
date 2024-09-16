@@ -22,7 +22,7 @@ import com.example.gcvas.service.RequisicaoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/requisição")
+@RequestMapping("/requisicao")
 @Validated
 public class RequisicaoController {
 
@@ -41,7 +41,7 @@ public class RequisicaoController {
         return ResponseEntity.ok().body(obj);
     }
     
-    @PostMapping("path")
+    @PostMapping()
     public ResponseEntity<Void> postRequisicao(@RequestBody @Valid Requisicao obj) {
         this.requisicaoService.create(obj);
 

@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import api from '../../api/api'; // Ajustado para a estrutura de diretórios
 import AddEditModal from './AddEditModal';
-import { deleteHistorico, getHistorico } from './ApiService';
-import DeleteModal from './DeleteModal';
 import styles from './GerenciarBeneficiado.module.css';
 import HistoricoTable from './HistoricoTable';
 import Pagination from './Pagination';
-
 
 function HistoricoList() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,6 +15,17 @@ function HistoricoList() {
   const [historicoData, setHistoricoData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
+
+  // Função para buscar os dados do histórico
+  const getHistorico = async () => {
+    try {
+      const response = await api.get('/Beneficiario');
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar dados do histórico:', error);
+      throw error;
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,12 +59,12 @@ function HistoricoList() {
   const filteredData = historicoData.filter((item) => {
     const searchValue = searchTerm.toLowerCase();
     return (
-      item.nome.toLowerCase().includes(searchValue) ||
-      item.codnis.toLowerCase().includes(searchValue) ||
-      item.endereco.toLowerCase().includes(searchValue) ||
-      item.cpf.toLowerCase().includes(searchValue) ||
-      item.telefone.toLowerCase().includes(searchValue) ||
-      item.date.toLowerCase().includes(searchValue)
+      (item.nome && item.nome.toLowerCase().includes(searchValue)) ||
+      (item.codnis && item.codnis.toLowerCase().includes(searchValue)) ||
+      (item.endereco && item.endereco.toLowerCase().includes(searchValue)) ||
+      (item.cpf && item.cpf.toLowerCase().includes(searchValue)) ||
+      (item.telefone && item.telefone.toLowerCase().includes(searchValue)) ||
+      (item.date && item.date.toLowerCase().includes(searchValue))
     );
   });
 
@@ -85,21 +93,6 @@ function HistoricoList() {
       alert('Houve um erro ao salvar os dados. Por favor, tente novamente.');
     }
   };
-  
-  const handleDelete = async () => {
-    try {
-      if (selectedItem) {
-        await deleteHistorico(selectedItem.id);
-        const data = await getHistorico();
-        setHistoricoData(data);
-        handleCloseDeleteModal();
-      }
-    } catch (error) {
-      console.error('Erro ao excluir histórico:', error);
-      alert('Houve um erro ao excluir os dados. Por favor, tente novamente.');
-    }
-  };
-  
 
   return (
     <div className={styles.historicoContainer}>
@@ -134,12 +127,6 @@ function HistoricoList() {
         title={showAddModal ? 'Adicionar Usuário' : 'Editar Usuário'}
         item={selectedItem}
         onSave={handleSave}
-      />
-
-      <DeleteModal
-        show={showDeleteModal}
-        handleClose={handleCloseDeleteModal}
-        onDelete={handleDelete}
       />
     </div>
   );

@@ -28,11 +28,10 @@ public class Requisicao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CodR", nullable = false, unique = true, length = 10)
-    @Size(min = 10)
+    @Column(name = "CodR", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "DataHora", unique = false, nullable = false, insertable = true, updatable =false, length = 50 )
+    @Column(name = "DataHora", unique = false, nullable = true, insertable = true, updatable =false, length = 50 )
     @NotNull
     @Size
     private Date data_hora;
@@ -42,17 +41,17 @@ public class Requisicao {
     @Size(min = 4, max = 50)
     private String desc_req;
 
-    @Column(name = "Status", unique = false, nullable = false, insertable = true, updatable =true, length = 50 )
+    @Column(name = "Status", unique = false, nullable = true, insertable = true, updatable =true, length = 50 )
     @NotBlank
     @Size(min = 4, max = 50)
     private char status;
 
    @ManyToOne
-    @JoinColumn(name = "cod_nis", unique = false, nullable = false, insertable = true, updatable =false)
+    @JoinColumn(name = "cod_nis", unique = false, nullable = true, insertable = true, updatable =false)
    private Beneficiario beneficiario;
 
    @ManyToOne
-    @JoinColumn(name = "CodB", unique = false, nullable = false, insertable = true, updatable =false)
+    @JoinColumn(name = "CodB", unique = false, nullable = true, insertable = true, updatable =false)
     private Beneficios beneficios;
 
 }

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import api from "../../api/api";
 import { HistoricoTable } from "./HistoricoTable";
 import { AddModal, DeleteModal, EditModal } from "./Modals";
 import { Pagination } from "./Pagination";
@@ -12,28 +13,69 @@ function HistoricoList() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [historicoData, setHistoricoData] = useState([]); // Estado para armazenar os dados do backend
   const itemsPerPage = 6; 
 
-  const historicoData = [
-    {
-      CodReq: "Luna Starling",
-      Descrição: "A1B2C3",
-      Status: "Rua das Estrelas, 999",
-      CodNIS: "321.654.987-00",
-      CodBeneficio: "(11) 98765-1234",
-      date: "01/01/1990",
-    },
-  ];
+  // Função para buscar dados do backend
+  useEffect(() => {
+    const fetchHistoricoData = async () => {
+      try {
+        const response = await api.get("/requisicao");
+        setHistoricoData(response.data); // Armazena os dados recebidos
+      } catch (error) {
+        console.error("Erro ao buscar dados do histórico", error);
+      }
+    };
 
+    fetchHistoricoData();
+  }, []); // Executa apenas na primeira renderização
+
+  // Função para adicionar um novo item
+  const createRequisicao = async (requisicao) => {
+    try {
+      await api.post('/requisicao', requisicao);
+      // Atualiza a lista após adicionar
+      const response = await api.get("/requisicao");
+      setHistoricoData(response.data);
+    } catch (error) {
+      console.error("Erro ao criar requisição", error);
+    }
+  };
+
+  // Função para atualizar um item
+  const updateRequisicao = async (id, requisicao) => {
+    try {
+      await api.put(`/requisicao/${id}`, requisicao);
+      // Atualiza a lista após editar
+      const response = await api.get("/requisicao");
+      setHistoricoData(response.data);
+    } catch (error) {
+      console.error("Erro ao atualizar requisição", error);
+    }
+  };
+
+  // Função para excluir um item
+  const deleteRequisicao = async (id) => {
+    try {
+      await api.delete(`/requisicao/${id}`);
+      // Atualiza a lista após excluir
+      const response = await api.get("/requisicao");
+      setHistoricoData(response.data);
+    } catch (error) {
+      console.error("Erro ao excluir requisição", error);
+    }
+  };
+
+  // Filtra os dados com base na pesquisa
   const filteredData = historicoData.filter((item) => {
     const searchValue = searchTerm.toLowerCase();
     return (
-      item.CodReq.toLowerCase().includes(searchValue) ||
-      item.Descrição.toLowerCase().includes(searchValue) ||
-      item.Status.toLowerCase().includes(searchValue) ||
-      item.CodNIS.toLowerCase().includes(searchValue) ||
-      item.CodBeneficio.toLowerCase().includes(searchValue) ||
-      item.date.toLowerCase().includes(searchValue)
+      item.id.toString().includes(searchValue) ||
+      item.desc_req.toLowerCase().includes(searchValue) ||
+      item.status.toLowerCase().includes(searchValue) ||
+      item.beneficiario?.id.toString().includes(searchValue) ||
+      item.beneficios?.id.toString().includes(searchValue) ||
+      item.data_hora.toLowerCase().includes(searchValue)
     );
   });
 
@@ -76,9 +118,25 @@ function HistoricoList() {
         />
       </div>
 
-      <AddModal show={showAddModal} handleClose={() => setShowAddModal(false)} />
-      <EditModal show={showEditModal} handleClose={() => setShowEditModal(false)} selectedItem={selectedItem} />
-      <DeleteModal show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} />
+      <AddModal
+        show={showAddModal}
+        handleClose={() => setShowAddModal(false)}
+        handleSave={createRequisicao}
+      />
+      <EditModal
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        selectedItem={selectedItem}
+        handleSave={(item) => updateRequisicao(selectedItem.id, item)}
+      />
+      <DeleteModal
+        show={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        handleDelete={() => {
+          deleteRequisicao(selectedItem.id);
+          setShowDeleteModal(false);
+        }}
+      />
     </div>
   );
 }

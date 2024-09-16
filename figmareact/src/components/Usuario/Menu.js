@@ -14,18 +14,19 @@ function HistoricoList() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const historicoData = [
-    {
-      nome: "Eu que mando",
-      cod: "A1B2C3",
-      login: "Rua das Estrelas, 999",
-      senha: "321.654.987-00",
-      requisicao: "(11) 98765-1234",
-      date: "01/01/1990",
-    },
-    // Adicione mais dados conforme necessário
-  ];
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await api.get('/beneficiarios'); // Ajuste o endpoint conforme sua API
+        setUsers(response.data);
+      } catch (err) {
+        console.error(err);
+        setError('Erro ao carregar usuários');
+      }
+    };
 
+    fetchUsers();
+  }, []);
   const filteredData = historicoData.filter((item) => {
     const searchValue = searchTerm.toLowerCase();
     return (

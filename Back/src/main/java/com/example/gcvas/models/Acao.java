@@ -37,7 +37,7 @@ public class Acao {
     private Date data_hora;
 
     @ManyToOne
-    @JoinColumn(name = "cod_nis", unique = false, nullable = false, insertable = true, updatable =false)
+    @JoinColumn(name = "id", unique = false, nullable = false, insertable = true, updatable =false)
     private Beneficiario beneficiario;
 
    @ManyToOne

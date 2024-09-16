@@ -2,32 +2,29 @@ import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 function AddEditModal({ show, handleClose, title, item, onSave }) {
-  const [nome, setNome] = useState("");
-  const [codnis, setCodnis] = useState("");
+
+
   const [endereco, setEndereco] = useState("");
   const [cpf, setCpf] = useState("");
   const [telefone, setTelefone] = useState("");
-  const [date, setDate] = useState("");
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     if (item) {
-      setNome(item.nome || "");
-      setCodnis(item.codnis || "");
       setEndereco(item.endereco || "");
+      setNis(item.nis || "")
       setCpf(item.cpf || "");
       setTelefone(item.telefone || "");
-      setDate(item.date || "");
+      setUsername(item.username || "");
     }
   }, [item]);
 
   const handleSave = () => {
     const newItem = {
-      nome,
-      codnis,
       endereco,
       cpf,
       telefone,
-      date,
+      username,
       ...(item?.id ? { id: item.id } : {}),
     };
     onSave(newItem);
@@ -40,23 +37,15 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="formNome">
-            <Form.Label>Nome</Form.Label>
+          <Form.Group controlId="formUsername">
+            <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Nome"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
-          </Form.Group>
-          <Form.Group controlId="formCodnis">
-            <Form.Label>Codnis</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Codnis"
-              value={codnis}
-              onChange={(e) => setCodnis(e.target.value)}
-            />
+
           </Form.Group>
           <Form.Group controlId="formEndereco">
             <Form.Label>Endereço</Form.Label>
@@ -83,15 +72,6 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
               placeholder="Telefone"
               value={telefone}
               onChange={(e) => setTelefone(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group controlId="formDate">
-            <Form.Label>Date</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
             />
           </Form.Group>
         </Form>
