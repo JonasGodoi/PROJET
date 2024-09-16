@@ -41,7 +41,7 @@ public class BeneficiarioController {
         return ResponseEntity.ok().body(obj);
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Void> postBeneficiario(@RequestBody @Valid Beneficiario obj) {
         this.beneficiarioService.create(obj);
 

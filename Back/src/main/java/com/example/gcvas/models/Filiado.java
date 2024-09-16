@@ -46,6 +46,6 @@ public class Filiado {
     private Integer data;
 
    @ManyToOne
-   @JoinColumn(name = "id", unique = false, nullable = false, insertable = true, updatable =false)
+   @JoinColumn(name = "cod_nis", unique = false, nullable = false, insertable = true, updatable =false)
     private Beneficiario beneficiario;
 }

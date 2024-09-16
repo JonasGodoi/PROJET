@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,9 +26,8 @@ public class Beneficios {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CodB", nullable = false, unique = true, length = 11)
-    @Size(min = 11, max = 11)
-    @NotNull
+    @Column(name = "CodB", nullable = false, unique = true)
+
     private Long  id;
 
     @Column(name = "Categoria", unique = true, nullable = false, insertable = true, updatable = false, length = 50 )
