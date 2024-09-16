@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import api from '../../api/api'; // Ajustado para a estrutura de diretórios
 import AddEditModal from './AddEditModal';
+import DeleteModal from './DeleteModal'; // Importar o DeleteModal
 import styles from './GerenciarBeneficiado.module.css';
 import HistoricoTable from './HistoricoTable';
 import Pagination from './Pagination';
@@ -55,6 +56,20 @@ function HistoricoList() {
     setShowDeleteModal(true);
   };
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
+
+  const handleDelete = async () => {
+    try {
+      if (selectedItem) {
+        await api.delete(`/Beneficiario/${selectedItem.id}`);
+        const data = await getHistorico();
+        setHistoricoData(data);
+        handleCloseDeleteModal();
+      }
+    } catch (error) {
+      console.error('Erro ao excluir item:', error);
+      alert('Houve um erro ao excluir o item. Por favor, tente novamente.');
+    }
+  };
 
   const filteredData = historicoData.filter((item) => {
     const searchValue = searchTerm.toLowerCase();
@@ -127,6 +142,12 @@ function HistoricoList() {
         title={showAddModal ? 'Adicionar Usuário' : 'Editar Usuário'}
         item={selectedItem}
         onSave={handleSave}
+      />
+
+      <DeleteModal
+        show={showDeleteModal}
+        handleClose={handleCloseDeleteModal}
+        onDelete={handleDelete}
       />
     </div>
   );
