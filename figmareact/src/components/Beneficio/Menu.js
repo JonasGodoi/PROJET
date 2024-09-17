@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import api from "../../api/api";
+import AddEditModal from './AddEditModal';
 import styles from "./BeneficiosAssistente.module.css";
+import DeleteModal from './DeleteModal'; // Importar o DeleteModal
 import HistoricoTable from "./HistoricoTable";
-import Modals from "./Modals";
 import Pagination from "./Pagination";
 
-const BeneficiosList = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+
+function HistoricoList() {
+  const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -58,7 +60,7 @@ const BeneficiosList = () => {
   const handleDelete = async () => {
     try {
       if (selectedItem) {
-        await api.delete(`/Beneficiario/${selectedItem.id}`);
+        await api.delete(`/Beneficios/${selectedItem.id}`);
         const data = await getHistorico();
         setHistoricoData(data);
         handleCloseDeleteModal();
@@ -73,9 +75,9 @@ const BeneficiosList = () => {
   const filteredData = historicoData.filter((item) => {
     const searchValue = searchTerm.toLowerCase();
     return (
-      item.CodBeneficio?.toLowerCase().includes(searchValue) ||
-      item.Categoria?.toLowerCase().includes(searchValue) ||
-      item.DescriçãoBeneficio?.toLowerCase().includes(searchValue)
+      item.CodBeneficio && item.CodBeneficio.toLowerCase().includes(searchValue) ||
+      item.categoria && item.categoria.toLowerCase().includes(searchValue) ||
+      item.desc_beneficio && item.desc_beneficio.toLowerCase().includes(searchValue)
     );
   });
 
@@ -94,7 +96,6 @@ const BeneficiosList = () => {
   
       // Verificando a resposta da API e atualização do estado
       const data = await getHistorico();
-      console.log("Dados recebidos após salvar:", data);
       setHistoricoData(data);
       handleCloseAddModal();
       handleCloseEditModal();
@@ -122,30 +123,32 @@ const BeneficiosList = () => {
       </div>
 
       <HistoricoTable
-        currentItems={currentItems}
-        handleShowEditModal={handleShowEditModal}
-        handleShowDeleteModal={handleShowDeleteModal}
+        data={currentItems}
+        onEdit={handleShowEditModal}
+        onDelete={handleShowDeleteModal}
       />
 
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        handlePageSelect={setCurrentPage}
+        onSelectPage={setCurrentPage}
       />
 
-      <Modals
-        showAddModal={showAddModal}
-        handleCloseAddModal={handleCloseAddModal}
-        showEditModal={showEditModal}
-        handleCloseEditModal={handleCloseEditModal}
-        showDeleteModal={showDeleteModal}
-        handleCloseDeleteModal={handleCloseDeleteModal}
-        selectedItem={selectedItem}
+      <AddEditModal
+        show={showAddModal || showEditModal}
+        handleClose={showAddModal ? handleCloseAddModal : handleCloseEditModal}
+        title={showAddModal ? 'Adicionar Usuário' : 'Editar Usuário'}
+        item={selectedItem}
         onSave={handleSave}
+      />
+
+      <DeleteModal
+        show={showDeleteModal}
+        handleClose={handleCloseDeleteModal}
         onDelete={handleDelete}
       />
     </div>
   );
-};
+}
 
-export default BeneficiosList;
+export default HistoricoList;

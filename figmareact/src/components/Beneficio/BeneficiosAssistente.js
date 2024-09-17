@@ -8,10 +8,10 @@ function BeneficiosAssistente() {
     <main className={styles.container}>
       <section className={styles.card}>
         <div className={styles.content}>
-          <div className={styles.column}>
+          <div className={styles.siderbarColumn}>
             <Sidebar />
           </div>
-          <div className={styles.column}>
+          <div className={styles.historicoColumn}>
             <Menu />
           </div>
         </div>
