@@ -1,4 +1,3 @@
-![image](https://github.com/user-attachments/assets/622106f3-64a5-4947-bbce-2b2dee7377e1)GCVAS
 
 Projeto de Software desenvolvido para a prefeitura de Quatiguá, do curso de Engenharia de Computação
 
