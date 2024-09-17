@@ -1,34 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
 
 function AddEditModal({ show, handleClose, title, item, onSave }) {
-
-  const [nis, setNis] = useState("");
-  const [endereco, setEndereco] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [telefone, setTelefone] = useState("");
-  const [username, setUsername] = useState("");
+  const [formData, setFormData] = useState({
+    id: '',
+    username: '',
+    nis: '',
+    cpf: '',
+    endereco: '',
+    telefone: ''
+  });
 
   useEffect(() => {
     if (item) {
-      setEndereco(item.endereco || "");
-      setNis(item.nis || "");
-      setCpf(item.cpf || "");
-      setTelefone(item.telefone || "");
-      setUsername(item.username || "");
+      setFormData({
+        id: item.id || '',
+        username: item.username || '',
+        nis: item.nis || '',
+        cpf: item.cpf || '',
+        endereco: item.endereco || '',
+        telefone: item.telefone || ''
+      });
     }
   }, [item]);
 
-  const handleSave = () => {
-    const newItem = {
-      nis,
-      endereco,
-      cpf,
-      telefone,
-      username,
-      ...(item?.id ? { id: item.id } : {}),
-    };
-    onSave(newItem);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = () => {
+    onSave(formData);
   };
 
   return (
@@ -39,48 +44,48 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
       <Modal.Body>
         <Form>
           <Form.Group controlId="formUsername">
-            <Form.Label>Beneficiario</Form.Label>
+            <Form.Label>Nome</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Beneficiario"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
             />
           </Form.Group>
           <Form.Group controlId="formNis">
             <Form.Label>NIS</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Código NIS"
-              value={nis}
-              onChange={(e) => setNis(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group controlId="formEndereco">
-            <Form.Label>Endereço</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Endereço"
-              value={endereco}
-              onChange={(e) => setEndereco(e.target.value)}
+              name="nis"
+              value={formData.nis}
+              onChange={handleChange}
             />
           </Form.Group>
           <Form.Group controlId="formCpf">
             <Form.Label>CPF</Form.Label>
             <Form.Control
               type="text"
-              placeholder="CPF"
-              value={cpf}
-              onChange={(e) => setCpf(e.target.value)}
+              name="cpf"
+              value={formData.cpf}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="formEndereco">
+            <Form.Label>Endereço</Form.Label>
+            <Form.Control
+              type="text"
+              name="endereco"
+              value={formData.endereco}
+              onChange={handleChange}
             />
           </Form.Group>
           <Form.Group controlId="formTelefone">
             <Form.Label>Telefone</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Telefone"
-              value={telefone}
-              onChange={(e) => setTelefone(e.target.value)}
+              name="telefone"
+              value={formData.telefone}
+              onChange={handleChange}
             />
           </Form.Group>
         </Form>
@@ -89,7 +94,7 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
         <Button variant="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="primary" onClick={handleSave}>
+        <Button variant="primary" onClick={handleSubmit}>
           Salvar
         </Button>
       </Modal.Footer>

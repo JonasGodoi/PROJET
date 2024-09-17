@@ -27,7 +27,6 @@ public class Beneficios {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CodB", nullable = false, unique = true)
-
     private Long  id;
 
     @Column(name = "Categoria", unique = true, nullable = false, insertable = true, updatable = false, length = 50 )
