@@ -12,8 +12,8 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
     if (item) {
       setFormData({
         id: item.id || '',
-        username: item.categoria || '',
-        nis: item.desc_beneficio || ''
+        categoria: item.categoria || '', // Corrigido aqui
+        desc_beneficio: item.desc_beneficio || ''
       });
     }
   }, [item]);
@@ -41,13 +41,13 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
             <Form.Label>Categoria</Form.Label>
             <Form.Control
               type="text"
-              name="Categoria"
+              name="categoria" // Corrigido aqui
               value={formData.categoria}
               onChange={handleChange}
             />
           </Form.Group>
           <Form.Group controlId="formDesc_beneficio">
-            <Form.Label>desc_beneficio</Form.Label>
+            <Form.Label>Descrição Benefício</Form.Label> {/* Corrigido aqui */}
             <Form.Control
               type="text"
               name="desc_beneficio"

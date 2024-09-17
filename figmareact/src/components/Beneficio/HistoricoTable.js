@@ -4,7 +4,7 @@ import styles from "./BeneficiosAssistente.module.css";
 
 function HistoricoTable({ data, onEdit, onDelete }) {
   return (
-    <table className={styles.historicotable}>
+    <table className={styles.historicoTable}>
       <thead>
         <tr>
           <th>Categoria</th>
