@@ -1,6 +1,6 @@
 package com.example.gcvas.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,27 +31,25 @@ public class Requisicao {
     @Column(name = "CodR", nullable = false, unique = true)
     private Long id;
 
-    @Column(name = "DataHora", unique = false, nullable = true, insertable = true, updatable =false, length = 50 )
+    @Column(name = "DataHora", unique = false, nullable = true, insertable = true, updatable =false)
     @NotNull
-    @Size
-    private Date data_hora;
+    private LocalDateTime data_hora;
 
-    @Column(name = "Descricao", unique = false, nullable = false, insertable = true, updatable =true, length = 50 )
+    @Column(name = "Descricao", unique = false, nullable = false, insertable = true, updatable =true, length = 50)
     @NotBlank
     @Size(min = 4, max = 50)
     private String desc_req;
 
-    @Column(name = "Status", unique = false, nullable = true, insertable = true, updatable =true, length = 50 )
+    @Column(name = "Status", unique = false, nullable = true, insertable = true, updatable =true, length = 50)
     @NotBlank
     @Size(min = 4, max = 50)
-    private char status;
+    private String status;
 
    @ManyToOne
-    @JoinColumn(name = "cod_nis", unique = false, nullable = true, insertable = true, updatable =false)
+    @JoinColumn(name = "cod_nis", unique = true, nullable = false, insertable = true, updatable =false)
    private Beneficiario beneficiario;
 
    @ManyToOne
-    @JoinColumn(name = "CodB", unique = false, nullable = true, insertable = true, updatable =false)
+    @JoinColumn(name = "CodB", unique = true, nullable = false, insertable = true, updatable =false)
     private Beneficios beneficios;
-
 }
