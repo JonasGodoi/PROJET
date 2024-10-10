@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.gcvas.models.User;
-import com.example.gcvas.models.Enums.TipoUser;
 import com.example.gcvas.service.UserService;
 
 import jakarta.validation.Valid;
@@ -34,49 +33,41 @@ public class UserController {
     public ResponseEntity<List<User>> getUser() {
         return ResponseEntity.ok().body(userService.findAll());
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") Long id) {
         User obj = this.userService.findById(id);
-
         return ResponseEntity.ok().body(obj);
     }
 
- @PostMapping
-    public ResponseEntity<User> postUserSecretaria(@RequestBody @Valid User obj) {
-        obj.setProfile(TipoUser.SECRETARIA);
+    // Atualizado para aceitar profile do frontend
+    @PostMapping
+    public ResponseEntity<User> postUser(@RequestBody @Valid User obj) {
+        // Removido: obj.setProfile(TipoUser.SECRETARIA);
         User createdUser = this.userService.create(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(createdUser.getId()).toUri();
 
         return ResponseEntity.created(uri).body(createdUser);
     }
 
-    
-    
+    // Opcional: Remover ou renomear este endpoint se não for necessário
     @PostMapping("/path")
-    public ResponseEntity<Void> postUser(@RequestBody @Valid User obj) {
+    public ResponseEntity<Void> postUserPath(@RequestBody @Valid User obj) {
         this.userService.create(obj);
-
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-
         return ResponseEntity.created(uri).build();
     }
-    
+
     @PutMapping("/{id}")
     public ResponseEntity<Void> putUser(@PathVariable("id") Long id, @RequestBody User newObj) {
         newObj.setId(id);
-
         this.userService.update(newObj);
-        
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable("id")Long id){
+    public ResponseEntity<Void> deleteUserById(@PathVariable("id") Long id){
         this.userService.deleteByid(id);
-
         return ResponseEntity.noContent().build();
     }
-
-
 }

@@ -7,24 +7,24 @@ function Table({ items, onEdit, onDelete }) {
     <table className={styles.historicoTable}>
       <thead>
         <tr>
-          <th>Nome</th>
+          {/* <th>Nome</th> */}
           <th>Código</th>
           <th>Login</th>
           <th>Senha</th>
-          <th>Requisições</th>
-          <th>Date</th>
-          <th>Ações</th>
+          <th>Profile</th>
+          {/* <th>Date</th>
+          <th>Ações</th> */}
         </tr>
       </thead>
       <tbody>
         {items.map((item, index) => (
           <tr key={index}>
-            <td>{item.nome}</td>
-            <td>{item.cod}</td>
-            <td>{item.login}</td>
-            <td>{item.senha}</td>
-            <td>{item.requisicao}</td>
-            <td>{item.date}</td>
+            {/* <td>{item.nome}</td> */}
+            <td>{item.id}</td>
+            <td>{item.username}</td>
+            <td>{item.password}</td>
+            <td>{item.profile}</td>
+            {/* <td>{item.date}</td> */}
             <td>
               <Button
                 className={`${styles.actionButton} ${styles.editButton}`}

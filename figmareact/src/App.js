@@ -13,6 +13,7 @@ import MenuSecretaria from './components/MenuSecretaria/MenuSecretaria';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import RelatorioAssistente from './components/RelatorioAssistente/RelatorioAssistente';
 import RequisicaoSecretaria from './components/Requisicao/RequisicaoSecretaria';
+import FormularioCRAS from './components/RMA/FormularioCRAS';
 import GerenciarUsuario from './components/Usuario/GerenciarBeneficiado';
 
 
@@ -103,12 +104,21 @@ function App() {
                 }
                 />
                 <Route
+                  path="/rma"
+                  element={
+                    <PrivateRoute>
+                      <FormularioCRAS />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
                   path="/beneficios"
                   element={
                     <PrivateRoute>
                       <BeneficiosAssistente />
                     </PrivateRoute>
                   }
+                  
           />
       </Routes>
     </Router>
