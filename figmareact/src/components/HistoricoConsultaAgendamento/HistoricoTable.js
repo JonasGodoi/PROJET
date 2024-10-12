@@ -7,13 +7,11 @@ export function HistoricoTable({ items, onEdit, onDelete }) {
     <table className={styles.historicoTable}>
       <thead>
         <tr>
+          <th>Categoria</th>
           <th>Nome</th>
-          <th>Codnis</th>
-          <th>Endereço</th>
-          <th>CPF</th>
-          <th>Telefone</th>
-          <th>Date</th>
-          <th>Ações</th>
+          <th>Data do Agendamento</th>
+          <th>Horario do Agendamento</th>
+          <th>Setor </th>
         </tr>
       </thead>
       <tbody>
@@ -24,7 +22,7 @@ export function HistoricoTable({ items, onEdit, onDelete }) {
             <td>{item.endereco}</td>
             <td>{item.cpf}</td>
             <td>{item.telefone}</td>
-            <td>{item.date}</td>
+
             <td>
               <Button className={`${styles.actionButton} ${styles.editButton}`} onClick={() => onEdit(item)}>
                 Editar

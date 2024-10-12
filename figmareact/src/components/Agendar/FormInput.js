@@ -13,6 +13,7 @@ const FormInput = ({ label, icon, type = 'text', id, value, onChange }) => {
           value={value}
           onChange={onChange}
           className={styles.inputField}
+          required
         />
       </div>
     </>

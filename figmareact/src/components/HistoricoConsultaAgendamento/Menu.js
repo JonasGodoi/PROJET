@@ -21,7 +21,7 @@ function HistoricoList() {
       endereco: "Rua das Estrelas, 999",
       cpf: "321.654.987-00",
       telefone: "(11) 98765-1234",
-      date: "01/01/1990",
+   
     },
   ];
 
