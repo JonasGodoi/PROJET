@@ -1,3 +1,4 @@
+// HistoricoTable.js
 import React from "react";
 import { Button } from "react-bootstrap";
 import styles from "./ConsultarHistoricoAgen.module.css";
@@ -16,12 +17,20 @@ export function HistoricoTable({ items, onEdit, onDelete }) {
         </tr>
       </thead>
       <tbody>
-        {items.map((item, index) => (
-          <tr key={index}>
+        {items.map((item) => (
+          <tr key={item.id}>
             <td>{item.categoria}</td>
             <td>{item.nome || item.username}</td>
-            <td>{item.dataConsulta || "-"}</td>
-            <td>{item.horarioConsulta || "-"}</td>
+            <td>
+              {item.dataConsulta
+                ? new Date(item.dataConsulta).toLocaleDateString()
+                : "-"}
+            </td>
+            <td>
+              {item.hora
+                ? item.hora // Verifique se está no formato correto
+                : "-"}
+            </td>
             <td>{item.setor || "-"}</td>
             <td>
               <Button

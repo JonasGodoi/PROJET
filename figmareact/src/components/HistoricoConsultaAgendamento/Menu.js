@@ -1,19 +1,18 @@
+// HistoricoList.js
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import api from "../../api/api";
 import styles from "./ConsultarHistoricoAgen.module.css";
 import { HistoricoTable } from "./HistoricoTable";
-import { AddModal, DeleteModal, EditModal } from "./Modals";
+import { DeleteModal, EditModal } from "./Modals";
 import { Pagination } from "./Pagination";
 
 function HistoricoList() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [historicoData, setHistoricoData] = useState([]); // Estado para armazenar os dados combinados
+  const [historicoData, setHistoricoData] = useState([]);
   const itemsPerPage = 6; 
 
   // Função para buscar dados do backend
@@ -24,33 +23,81 @@ function HistoricoList() {
         const agendarResponse = await api.get("/agendar");
         const agendamentos = agendarResponse.data.map(item => ({
           ...item,
-          categoria: "Agendamento"
+          categoria: "Agendamento",
+          dataConsulta: item.dataconsu,
+          horarioConsulta: item.horarioConsulta // Verifique o nome correto
         }));
+
+        console.log("Agendamentos:", agendamentos);
 
         // Buscar dados de Encaminhamentos
         const encaminharResponse = await api.get("/encaminhar");
         const encaminhamentos = encaminharResponse.data.map(item => ({
           ...item,
-          categoria: "Encaminhamento"
+          categoria: "Encaminhamento",
+          
+          horarioConsulta: item.horario // Mapeia 'horario' para 'horarioConsulta'
         }));
+
+        console.log("Encaminhamentos:", encaminhamentos);
 
         // Combinar os dados
         const combinedData = [...agendamentos, ...encaminhamentos];
 
-        // Opcional: ordenar por data, horário ou outro critério
-        combinedData.sort((a, b) => new Date(b.dataConsulta || b.data) - new Date(a.dataConsulta || b.data));
+        // Ordenar por data (mais recentes primeiro)
+        combinedData.sort((a, b) => new Date(b.dataConsulta) - new Date(a.dataConsulta));
 
-        setHistoricoData(combinedData); // Armazena os dados combinados
+        setHistoricoData(combinedData);
       } catch (error) {
         console.error("Erro ao buscar dados do histórico", error);
       }
     };
 
     fetchHistoricoData();
-  }, []); // Executa apenas na primeira renderização
+  }, []);
 
-  // Funções para criar, atualizar e excluir (ajustar conforme necessário)
-  // ... (Mantém as funções createRequisicao, updateRequisicao, deleteRequisicao se aplicável)
+  // Funções para editar e excluir
+  const handleEdit = (item) => {
+    setSelectedItem(item);
+    setShowEditModal(true);
+  };
+
+  const handleDelete = (item) => {
+    setSelectedItem(item);
+    setShowDeleteModal(true);
+  };
+
+  const handleUpdateItem = async (updatedItem) => {
+    try {
+      if (updatedItem.categoria === "Agendamento") {
+        await api.put(`/agendar/${updatedItem.id}`, updatedItem);
+      } else {
+        await api.put(`/encaminhar/${updatedItem.id}`, updatedItem);
+      }
+      // Atualiza o estado com o item atualizado
+      setHistoricoData(prevData =>
+        prevData.map(item => (item.id === updatedItem.id ? updatedItem : item))
+      );
+    } catch (error) {
+      console.error("Erro ao salvar as alterações", error);
+      // Aqui você pode adicionar um feedback visual para o usuário
+    }
+  };
+
+  const handleDeleteItem = async (itemToDelete) => {
+    try {
+      if (itemToDelete.categoria === "Agendamento") {
+        await api.delete(`/agendar/${itemToDelete.id}`);
+      } else {
+        await api.delete(`/encaminhar/${itemToDelete.id}`);
+      }
+      // Remove o item do estado
+      setHistoricoData(prevData => prevData.filter(item => item.id !== itemToDelete.id));
+    } catch (error) {
+      console.error("Erro ao deletar o item", error);
+      // Aqui você pode adicionar um feedback visual para o usuário
+    }
+  };
 
   // Filtra os dados com base na pesquisa
   const filteredData = historicoData.filter((item) => {
@@ -60,8 +107,7 @@ function HistoricoList() {
       (item.cpf && item.cpf.toLowerCase().includes(searchValue)) ||
       (item.setor && item.setor.toLowerCase().includes(searchValue)) ||
       (item.dataConsulta && item.dataConsulta.toLowerCase().includes(searchValue)) ||
-      (item.horarioConsulta && item.horarioConsulta.toLowerCase().includes(searchValue)) ||
-      (item.data && item.data.toLowerCase().includes(searchValue)) // Para Encaminhamento
+      (item.horarioConsulta && item.horarioConsulta.toLowerCase().includes(searchValue))
     );
   });
 
@@ -80,22 +126,14 @@ function HistoricoList() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className={styles.searchInput}
         />
-        <Button onClick={() => setShowAddModal(true)} className={styles.createButton}>
-          Criar
-        </Button>
+        {/* Removido o botão 'Criar' */}
       </div>
 
       <div className={styles.historicoTableContainer}>
         <HistoricoTable
           items={currentItems}
-          onEdit={(item) => {
-            setSelectedItem(item);
-            setShowEditModal(true);
-          }}
-          onDelete={(item) => {
-            setSelectedItem(item);
-            setShowDeleteModal(true);
-          }}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
         />
         <Pagination
           currentPage={currentPage}
@@ -104,33 +142,18 @@ function HistoricoList() {
         />
       </div>
 
-      <AddModal
-        show={showAddModal}
-        handleClose={() => setShowAddModal(false)}
-        // Adicione props adicionais se necessário
-      />
       <EditModal
         show={showEditModal}
         handleClose={() => setShowEditModal(false)}
         selectedItem={selectedItem}
-        // Adapte handleSave conforme a categoria
-        handleSave={(item) => {
-          if (selectedItem.categoria === "Agendamento") {
-            // Função para atualizar agendamento
-          } else {
-            // Função para atualizar encaminhamento
-          }
-        }}
+        handleSave={handleUpdateItem}
       />
       <DeleteModal
         show={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
+        selectedItem={selectedItem}
         handleDelete={() => {
-          if (selectedItem.categoria === "Agendamento") {
-            // Função para deletar agendamento
-          } else {
-            // Função para deletar encaminhamento
-          }
+          handleDeleteItem(selectedItem);
           setShowDeleteModal(false);
         }}
       />
