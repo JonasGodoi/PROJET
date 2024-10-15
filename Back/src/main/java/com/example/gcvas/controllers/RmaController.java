@@ -29,11 +29,7 @@ public class RmaController {
     @Autowired
     RmaService rmaService;
 
-    @GetMapping
-    public ResponseEntity<List<Rma>> getAllRma() {
-        List<Rma> rmaList = rmaService.findAll();
-        return ResponseEntity.ok(rmaList);
-    }
+
 
     @GetMapping
     public ResponseEntity<List<Rma>> getRma() {

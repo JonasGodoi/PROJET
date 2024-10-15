@@ -81,7 +81,7 @@
   align-self: stretch;
   max-width: 300px;
   margin: 300px -1px 0 0;
-  border: 1px solid #4f9122;
+
 }
 
 @media (max-width: 991px) {
@@ -96,7 +96,6 @@
   flex-direction: column;
   padding: 1px 0; /* Substitui a margem por padding */
   margin: 0px auto; /* Remove o espaçamento superior extra */
-
   margin-left: 23%;
 }
 
