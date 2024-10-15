@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import api from '../../api/api'; // Importe seu cliente de API
 import './FormularioCRAS.css';
 
 const FormularioCRAS = () => {
@@ -8,16 +9,16 @@ const FormularioCRAS = () => {
     endereco: '',
     municipio: '',
     uf: '',
-    familiasPAIF: '',
-    novasFamiliasPAIF: '',
-    familiasExtremaPobreza: '',
-    bolsaFamilia: '',
-    descumprimentoCondicionalidades: '',
-    bpc: '',
-    trabalhoInfantil: '',
-    acolhimento: '',
-    atendimentosCRAS: '',
-    cadastroUnico: '',
+    familiasPAIF: '', 
+    novasFamiliasPAIF: '', 
+    familiasExtremaPobreza: '', 
+    bolsaFamilia: '', 
+    descumprimentoCondicionalidades: '', 
+    bpc: '', 
+    trabalhoInfantil: '', 
+    acolhimento: '', 
+    atendimentosCRAS: '', 
+    cadastroUnico: '', 
     atualizacaoCadastral: '',
     bpcIndividuos: '',
     creas: '',
@@ -34,7 +35,6 @@ const FormularioCRAS = () => {
     idososSCFV: '',
     palestrasOficinas: '',
     pessoasDeficiencia: '',
-    
   });
 
   const handleChange = (e) => {
@@ -42,16 +42,23 @@ const FormularioCRAS = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+
   };
-  
+
   useEffect(() => {
     document.body.style.zoom = "80%";
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Lógica de envio do formulário
-    console.log('Formulário enviado:', formData);
+    try {
+      const response = await api.post('/Rma', formData); // Altere para o endpoint correto
+      console.log('Formulário enviado:', response.data);
+      // Aqui você pode adicionar uma lógica para limpar o formulário ou mostrar uma mensagem de sucesso
+    } catch (error) {
+      console.error('Erro ao enviar o formulário:', error);
+      // Aqui você pode adicionar uma lógica para mostrar uma mensagem de erro
+    }
   };
 
   return (
@@ -202,7 +209,7 @@ const FormularioCRAS = () => {
       </div>
 
       <div className="input-group">
-        <label>Adultos de 18 a 59 anos em SCFV:</label>
+        <label>Adultos em SCFV:</label>
         <input type="number" name="adultosSCFV" value={formData.adultosSCFV} onChange={handleChange} />
       </div>
 
@@ -212,14 +219,15 @@ const FormularioCRAS = () => {
       </div>
 
       <div className="input-group">
-        <label>Pessoas participando de palestras ou oficinas:</label>
+        <label>Palestras e oficinas realizadas:</label>
         <input type="number" name="palestrasOficinas" value={formData.palestrasOficinas} onChange={handleChange} />
       </div>
 
       <div className="input-group">
-        <label>Pessoas com deficiência em SCFV ou PAIF:</label>
+        <label>Pessoas com deficiência atendidas:</label>
         <input type="number" name="pessoasDeficiencia" value={formData.pessoasDeficiencia} onChange={handleChange} />
       </div>
+
       <button type="submit">Enviar</button>
     </form>
   );

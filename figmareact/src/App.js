@@ -7,6 +7,7 @@ import BeneficiosAssistente from './components/Beneficio/BeneficiosAssistente';
 import EncaminharPessoa from './components/Encaminhar/EncaminharPessoa';
 import MenuHistorico from './components/Historico/MenuHistorico';
 import ConsultarHistoricoAgen from './components/HistoricoConsultaAgendamento/ConsultarHistoricoAgen';
+import HistoricoRMA from './components/HistoricoRMA/HistoricoRMA';
 import LoginPage from './components/Login/LoginPage';
 import MenuAssistente from './components/MenuAssistente/MenuAssistente';
 import MenuSecretaria from './components/MenuSecretaria/MenuSecretaria';
@@ -15,7 +16,6 @@ import RelatorioAssistente from './components/RelatorioAssistente/RelatorioAssis
 import RequisicaoSecretaria from './components/Requisicao/RequisicaoSecretaria';
 import FormularioCRAS from './components/RMA/FormularioCRAS';
 import GerenciarUsuario from './components/Usuario/GerenciarBeneficiado';
-
 
 
 function App() {
@@ -108,6 +108,14 @@ function App() {
                   element={
                     <PrivateRoute>
                       <FormularioCRAS />
+                    </PrivateRoute>
+                  }
+                />
+                                <Route
+                  path="/rmaa"
+                  element={
+                    <PrivateRoute>
+                      <HistoricoRMA />
                     </PrivateRoute>
                   }
                 />

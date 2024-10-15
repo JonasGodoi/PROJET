@@ -9,7 +9,8 @@ function Menu() {
     { text: "Benefícios", path: "/beneficios" },
     { text: "Requisições", path: "/requisicaosecretaria" },
     { text: "Gerar Relatórios", path: "/relatoriosecretaria" }, 
-    {text: "RMA", path: "/RMA"}
+    {text: "RMA", path: "/RMA"} ,
+    {text: "Historico RMA", path: "/RMAA"}
 
   ];
 
