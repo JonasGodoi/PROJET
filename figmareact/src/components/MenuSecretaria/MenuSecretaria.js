@@ -7,6 +7,7 @@ function MenuAssistente() {
   return (
     <main className={styles.container}>
       <section className={styles.card}>
+        
         <div className={styles.content}>
           <div className={styles.column}>
             <Sidebar />

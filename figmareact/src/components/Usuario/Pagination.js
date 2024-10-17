@@ -2,7 +2,7 @@ import React from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import styles from "./GerenciarUsuario.module.css";
 
-export function Pagination({ currentPage, totalPages, onPageSelect }) {
+export function Pagination({ currentPage, totalPages, onSelectPage }) { 
   return (
     <div className={styles.pagination}>
       <DropdownButton
@@ -13,7 +13,7 @@ export function Pagination({ currentPage, totalPages, onPageSelect }) {
         {[...Array(totalPages).keys()].map(page => (
           <Dropdown.Item
             key={page + 1}
-            onClick={() => onPageSelect(page + 1)}
+            onClick={() => onSelectPage(page + 1)} 
           >
             Página {page + 1}
           </Dropdown.Item>

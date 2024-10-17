@@ -8,7 +8,7 @@ function Table({ items, onEdit, onDelete }) {
       <thead>
         <tr>
           {/* <th>Nome</th> */}
-          <th>Código</th>
+            {/*td>{item.id}</td */}
           <th>Login</th>
           <th>Senha</th>
           <th>Profile</th>
@@ -20,7 +20,7 @@ function Table({ items, onEdit, onDelete }) {
         {items.map((item, index) => (
           <tr key={index}>
             {/* <td>{item.nome}</td> */}
-            <td>{item.id}</td>
+            {/*td>{item.id}</td */}
             <td>{item.username}</td>
             <td>{item.password}</td>
             <td>{item.profile}</td>

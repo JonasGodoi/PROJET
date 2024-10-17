@@ -1,51 +1,62 @@
 import { jwtDecode } from "jwt-decode";
 import React, { useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { MdOutlinePassword, MdPerson } from "react-icons/md";
+
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
-import logoImage from "../images/logo (1).png"; // Ajuste o caminho conforme sua estrutura
+import logoImage from "../images/logo (1).png";
 import styles from "./LoginPage.module.css";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // Estado para mensagem de erro
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [error, setError] = useState("");
+  const [rememberMeChecked, setRememberMeChecked] = useState(false);
   const navigate = useNavigate();
 
-
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    if (username.trim() === "" || password.trim() === "") {
+      setErrorMessage("Por favor, preencha todos os campos.");
+      return;
+    }
     try {
-      // Fazendo a requisição POST para autenticar o usuário
-      const response = await api.post('/login', {
+      const response = await api.post("/login", {
         username: username,
-        password: password
+        password: password,
       });
 
       const authToken = response.headers.getAuthorization();
       const decoded = jwtDecode(authToken.slice(7));
       console.log(decoded);
 
-      // Armazena o token JWT no localStorage
-      localStorage.setItem('authToken', authToken);
+      if (rememberMeChecked) {
+        localStorage.setItem("authToken", authToken);
+      } else {
+        sessionStorage.setItem("authToken", authToken);
+      }
 
-      const userResponse = await api.get(`/user/${decoded.jti}`)
+      const userResponse = await api.get(`/user/${decoded.jti}`);
       console.log(userResponse.data);
 
       localStorage.setItem("isAuthenticated", "true");
 
-      // Redireciona o usuário de acordo com o tipo de perfil
       if (userResponse.data.profile.includes("ADM")) {
         navigate("/menuassistente", { replace: true });
       } else if (userResponse.data.profile.includes("SECRETARIA")) {
         navigate("/menusecretaria", { replace: true });
-      } 
+      }
     } catch (err) {
-      console.log(err)
-      setError('Usuário ou senha inválidos');
+      console.log(err);
+      setError("Usuário ou senha inválidos");
     }
   };
 
@@ -75,16 +86,32 @@ const LoginPage = () => {
             </div>
             <div className={styles.inputGroup}>
               <MdOutlinePassword className={styles.inputIcon} />
-              <label htmlFor="password" className={styles.visuallyHidden}></label>
+              <label
+                htmlFor="password"
+                className={styles.visuallyHidden}
+              ></label>
               <input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className={styles.input}
                 placeholder="Senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {/* Ícone para alternar visibilidade da senha */}
+              <span
+                className={styles.passwordToggleIcon}
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+              </span>
             </div>
+
+            <div className={styles.rememberMe}>
+              <input type="checkbox" id="rememberMe" />
+              <label htmlFor="rememberMe">Lembrar de mim</label>
+            </div>
+
             {errorMessage && (
               <p className={styles.errorMessage}>{errorMessage}</p>
             )}

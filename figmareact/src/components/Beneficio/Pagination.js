@@ -2,7 +2,7 @@ import React from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import styles from "./BeneficiosAssistente.module.css";
 
-const Pagination = ({ currentPage, totalPages, handlePageSelect }) => {
+const Pagination = ({ currentPage, totalPages, onSelectPage }) => { // Alterar 'handlePageSelect' para 'onSelectPage'
   return (
     <div className={styles.pagination}>
       <DropdownButton
@@ -13,7 +13,7 @@ const Pagination = ({ currentPage, totalPages, handlePageSelect }) => {
         {[...Array(totalPages).keys()].map((page) => (
           <Dropdown.Item
             key={page + 1}
-            onClick={() => handlePageSelect(page + 1)}
+            onClick={() => onSelectPage(page + 1)} // Usar 'onSelectPage' aqui
           >
             Página {page + 1}
           </Dropdown.Item>
@@ -22,5 +22,6 @@ const Pagination = ({ currentPage, totalPages, handlePageSelect }) => {
     </div>
   );
 };
+
 
 export default Pagination;

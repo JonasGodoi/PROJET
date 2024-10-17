@@ -10,8 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.gcvas.Security.UserSpringSecurity;
-import com.example.gcvas.models.Enums.TipoUser;
 import com.example.gcvas.models.User;
+import com.example.gcvas.models.Enums.TipoUser;
 import com.example.gcvas.repositories.UserRepository;
 import com.example.gcvas.service.exceptions.AuthorizationException;
 import com.example.gcvas.service.exceptions.DataBindingViolationException;

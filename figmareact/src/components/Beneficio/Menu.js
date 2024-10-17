@@ -128,16 +128,18 @@ function HistoricoList() {
         onDelete={handleShowDeleteModal}
       />
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onSelectPage={setCurrentPage}
-      />
+<Pagination
+  currentPage={currentPage}
+  totalPages={totalPages}
+  onSelectPage={setCurrentPage} 
+/>
+
+
 
       <AddEditModal
         show={showAddModal || showEditModal}
         handleClose={showAddModal ? handleCloseAddModal : handleCloseEditModal}
-        title={showAddModal ? 'Adicionar Usuário' : 'Editar Usuário'}
+        title={showAddModal ? 'Adicionar Beneficio' : 'Editar Beneficio'}
         item={selectedItem}
         onSave={handleSave}
       />

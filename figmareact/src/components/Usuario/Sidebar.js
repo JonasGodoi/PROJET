@@ -19,7 +19,7 @@ function Sidebar() {
       <h2 className={styles.formTitle}>
         Gerenciar Usuario 
       </h2>
-      {/* Adicione o botão de logout */}
+
 
     </aside>
   );

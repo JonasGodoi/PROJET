@@ -139,7 +139,7 @@ function HistoricoList() {
       <AddEditModal
         show={showAddModal || showEditModal}
         handleClose={showAddModal ? handleCloseAddModal : handleCloseEditModal}
-        title={showAddModal ? 'Adicionar Usuário' : 'Editar Usuário'}
+        title={showAddModal ? 'Adicionar Beneficiario' : 'Editar Beneficiario'}
         item={selectedItem}
         onSave={handleSave}
       />

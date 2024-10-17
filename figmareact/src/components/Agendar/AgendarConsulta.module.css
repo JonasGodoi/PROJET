@@ -9,6 +9,9 @@
   
 }
 
+
+
+
 .background {
   background-color: #ffffff;
   display: flex;
@@ -41,10 +44,11 @@
   margin-right: 0;
   }
 
-@media (max-width: 991px) {
+@media (max-width: 1400px) {
   .formWrapper {
     margin-bottom: 10px;
     padding-right: 20px;
+    width: 100%;
   }
 }
 
@@ -62,7 +66,12 @@
 
 @media (max-width: 991px) {
   .sidebar {
-    padding-bottom: 100px;
+    padding-bottom: 10%;
+    width: 85%;
+    padding-left: 51%;
+    margin-left: 60px;
+    margin-right: 60px;
+    
   }
 }
 
@@ -76,6 +85,17 @@
   background-color: #fff;
 }
 
+@media (max-width: 991px){
+  .logo{
+    width: 100%;
+    position: relative;
+    right: 160px;
+    object-fit: contain;
+    object-position: center;
+    
+  }
+}
+
 .sidebarTitle {
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   align-self: stretch;
@@ -86,7 +106,12 @@
 
 @media (max-width: 991px) {
   .sidebarTitle {
-    margin-top: 40px;
+    margin-top: 0px;
+    position: relative;
+    right: 160px;
+    width: 100%;
+    top: 30px
+
   }
 }
 
@@ -102,7 +127,8 @@
 
 @media (max-width: 991px) {
   .formContent {
-    margin-top: 20px;
+    margin-top: 10px;
+  
   }
 }
 
@@ -115,6 +141,12 @@
   font: 600 40px Inter, sans-serif;
 }
 
+@media (max-width: 991px){
+  .formTitle{
+    width: 100%;
+    padding-right: 30%;
+  }
+}
 .inputLabel {
   color: #67a140;
   text-align: center;
@@ -141,8 +173,9 @@
 
 @media (max-width: 991px) {
   .inputWrapper {
-    margin-left: 2px;
-    padding-right: 20px;
+    margin-left: 20px;
+    padding-right: 60px;
+    width: 100%;
   }
 }
 
@@ -155,7 +188,7 @@
 
 .submitButton {
   border-radius: 30px;
-  background-color: #4f9122;
+  background-color: #67a140;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   width: 200px;
   max-width: 100%;
@@ -165,7 +198,7 @@
   padding: 22px 70px;
   font: 800 20px Inter, sans-serif;
   border: 1px solid #67a140;
-  margin-left: 40%;
+  margin-left: 25%;
 }
 
 @media (max-width: 991px) {
@@ -207,3 +240,4 @@ input, textarea, select {
   padding: 4px; /* Ajuste o padding conforme necessário */
   box-shadow: none; /* Remove qualquer sombra */
 }
+

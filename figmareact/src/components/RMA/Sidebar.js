@@ -1,13 +1,10 @@
 // Sidebar.js
 import React from "react";
 import logoImage from "../images/logo (1).png"; // Ajuste o caminho conforme sua estrutura
-import styles from './MenuAssistente.module.css';
+import styles from './FormularioCRAS.module.css';
 
 
 function Sidebar() {
-  const handleBackButtonClick = () => {
-    window.history.back(); // Volta para a página anterior
-  };
   return (
     <aside className={styles.sidebarContainer}>
       <img 
@@ -19,10 +16,10 @@ function Sidebar() {
       <h1 className={styles.sidebarTitle}>
         Secretaria de Assistência Social
       </h1>
+      <h2 className={styles.formTitle}>
 
-      <button className={styles.backButton} onClick={handleBackButtonClick}>
-        Voltar
-      </button>
+      </h2>
+
 
     </aside>
   );

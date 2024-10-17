@@ -1,12 +1,15 @@
-import React from 'react';
-import styles from './AgendarConsulta.module.css';
+import React from "react";
+import styles from "./AgendarConsulta.module.css";
 
-const FormInput = ({ label, icon, type = 'text', id, value, onChange }) => {
+const FormInput = ({ label, icon, type = "text", id, value, onChange }) => {
   return (
     <>
-      <label htmlFor={id} className={styles.inputLabel}>{label}</label>
+      <label htmlFor={id} className={styles.inputLabel}>
+        {label}
+      </label>
       <div className={styles.inputWrapper}>
-        <span className={styles.inputIcon}>{icon}</span> {/* Renderiza o ícone como componente */}
+        <span className={styles.inputIcon}>{icon}</span>{" "}
+        {/* Renderiza o ícone como componente */}
         <input
           type={type}
           id={id}
