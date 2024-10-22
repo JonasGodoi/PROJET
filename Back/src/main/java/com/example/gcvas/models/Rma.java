@@ -22,6 +22,11 @@ public class Rma {
     
     public static final String TABLE_NAME = "Rma";
 
+    // Novo enum para representar os meses do ano
+public enum Mes {
+    JANEIRO, FEVEREIRO, MARCO, ABRIL, MAIO, JUNHO, JULHO, AGOSTO, SETEMBRO, OUTUBRO, NOVEMBRO, DEZEMBRO
+}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CodRma", nullable = false, unique = true)
@@ -51,6 +56,10 @@ public class Rma {
     @Size(min = 2, max = 2)
     private String uf;
 
+    @Column(name = "mes", nullable = false)
+    @NotNull(message = "O campo 'mes' não pode ser nulo.")
+    private String mes; // Adiciona o novo campo de mês
+    
     @Column(name = "familiasPAIF", nullable = false)
     @NotNull
     private Integer familiasPAIF;

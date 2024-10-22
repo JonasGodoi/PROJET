@@ -1,108 +1,270 @@
-import React, { useEffect, useState } from 'react';
-import api from '../../api/api'; // Certifique-se de que o cliente da API esteja configurado corretamente
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../api/api"; // Importando o módulo api
+import styles from "./HistoricoRMA.module.css";
+import Sidebar from "./Sidebar";
 
-const HistoricoCRAS = () => {
-  const [historyData, setHistoryData] = useState([]);
+const HistoricoRMA = () => {
+  const [mes, setMes] = useState("");
+  const [historico, setHistorico] = useState([]);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    // Função para buscar os dados do backend
-    const fetchHistory = async () => {
-      try {
-        const response = await api.get('/Rma'); // Endpoint correto para buscar os dados do histórico
-        setHistoryData(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar o histórico:', error);
-      }
-    };
+  const meses = [
+    "JANEIRO",
+    "FEVEREIRO",
+    "MARCO",
+    "ABRIL",
+    "MAIO",
+    "JUNHO",
+    "JULHO",
+    "AGOSTO",
+    "SETEMBRO",
+    "OUTUBRO",
+    "NOVEMBRO",
+    "DEZEMBRO",
+  ];
 
-    fetchHistory();
-  }, []);
+  const handleFetchHistorico = async () => {
+    if (!mes) {
+      setError("Por favor, selecione um mês.");
+      return;
+    }
+
+    try {
+      // Enviando o mês selecionado para o backend
+      const response = await api.get(`/Rma/mes/${mes}`);
+      setHistorico(response.data); // Espera-se que o data já contenha os dados
+      setError(null); // Limpa o erro se a chamada for bem-sucedida
+    } catch (err) {
+      setError(err.response ? err.response.data.message : err.message);
+    }
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/editarRMA/${id}`);
+  };
 
   return (
-    <div>
-      <h2>Histórico de Registros do CRAS</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Unidade</th>
-            <th>Nº Unidade</th>
-            <th>Endereço</th>
-            <th>Município</th>
-            <th>UF</th>
-            <th>Famílias PAIF</th>
-            <th>Novas Famílias PAIF</th>
-            <th>Famílias Extrema Pobreza</th>
-            <th>Bolsa Família</th>
-            <th>Descumprimento de Condicionalidades</th>
-            <th>BPC</th>
-            <th>Trabalho Infantil</th>
-            <th>Acolhimento</th>
-            <th>Atendimentos CRAS</th>
-            <th>Cadastro Único</th>
-            <th>Atualização Cadastral</th>
-            <th>BPC - Indivíduos</th>
-            <th>CREAS</th>
-            <th>Visitas Domiciliares</th>
-            <th>Auxílios Natalidade</th>
-            <th>Auxílios Funeral</th>
-            <th>Outros Benefícios</th>
-            <th>Atendimentos Coletivos</th>
-            <th>Famílias Participantes PAIF</th>
-            <th>Crianças 0-6 SCFV</th>
-            <th>Crianças 7-14 SCFV</th>
-            <th>Adolescentes 15-17 SCFV</th>
-            <th>Adultos SCFV</th>
-            <th>Idosos SCFV</th>
-            <th>Palestras e Oficinas</th>
-            <th>Pessoas com Deficiência</th>
-          </tr>
-        </thead>
-        <tbody>
-          {historyData.length > 0 ? (
-            historyData.map((item, index) => (
-              <tr key={index}>
-                <td>{item.unidade}</td>
-                <td>{item.numeroUnidade}</td>
-                <td>{item.endereco}</td>
-                <td>{item.municipio}</td>
-                <td>{item.uf}</td>
-                <td>{item.familiasPAIF}</td>
-                <td>{item.novasFamiliasPAIF}</td>
-                <td>{item.familiasExtremaPobreza}</td>
-                <td>{item.bolsaFamilia}</td>
-                <td>{item.descumprimentoCondicionalidades}</td>
-                <td>{item.bpc}</td>
-                <td>{item.trabalhoInfantil}</td>
-                <td>{item.acolhimento}</td>
-                <td>{item.atendimentosCRAS}</td>
-                <td>{item.cadastroUnico}</td>
-                <td>{item.atualizacaoCadastral}</td>
-                <td>{item.bpcIndividuos}</td>
-                <td>{item.creas}</td>
-                <td>{item.visitasDomiciliares}</td>
-                <td>{item.auxiliosNatalidade}</td>
-                <td>{item.auxiliosFuneral}</td>
-                <td>{item.outrosBeneficios}</td>
-                <td>{item.atendimentosColetivos}</td>
-                <td>{item.familiasParticipantesPAIF}</td>
-                <td>{item.criancas06SCFV}</td>
-                <td>{item.criancas714SCFV}</td>
-                <td>{item.adolescentes1517SCFV}</td>
-                <td>{item.adultosSCFV}</td>
-                <td>{item.idososSCFV}</td>
-                <td>{item.palestrasOficinas}</td>
-                <td>{item.pessoasDeficiencia}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="31">Nenhum dado encontrado.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+    <main className={styles.container}>
+      <section className={styles.card}>
+        <div className={styles.content}>
+          <div className={styles.column}>
+            <Sidebar />
+          </div>
+          <div className={styles.column}>
+            <h2>Historico RMA</h2>
+
+            <div className={styles.inputGroup}>
+              <label htmlFor="mesSelect">Escolha o mês:</label>
+              <select
+                id="mesSelect"
+                value={mes}
+                onChange={(e) => setMes(e.target.value)}
+              >
+                <option value="">Selecione um mês</option>
+                {meses.map((m, index) => (
+                  <option key={index} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+              <button onClick={handleFetchHistorico}>Buscar Histórico</button>
+            </div>
+
+            {error && <p className={styles.error}>{error}</p>}
+
+            <div className={styles.dataRows}>
+              {historico.map((item) => (
+                <div className={styles.row} key={item.id}>
+                  <div className={styles.inputGroup}>
+                    <label>Nome da Unidade:</label>
+                    <span>{item.unidade}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Nº da Unidade:</label>
+                    <span>{item.numeroUnidade}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Endereço:</label>
+                    <span>{item.endereco}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Município:</label>
+                    <span>{item.municipio}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>UF:</label>
+                    <span>{item.uf}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Mês:</label>
+                    <span>{item.mes}</span>
+                  </div>
+
+                  <h3>Bloco 1 - Famílias em acompanhamento pelo PAIF</h3>
+
+                  <div className={styles.inputGroup}>
+                    <label>
+                      Total de famílias em acompanhamento pelo PAIF:
+                    </label>
+                    <span>{item.familiasPAIF}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Novas famílias inseridas no acompanhamento:</label>
+                    <span>{item.novasFamiliasPAIF}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Famílias em situação de extrema pobreza:</label>
+                    <span>{item.familiasExtremaPobreza}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Famílias beneficiárias do Bolsa Família:</label>
+                    <span>{item.bolsaFamilia}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>
+                      Famílias em descumprimento de condicionalidades:
+                    </label>
+                    <span>{item.descumprimentoCondicionalidades}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Famílias com membros beneficiários do BPC:</label>
+                    <span>{item.bpc}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>
+                      Famílias com crianças ou adolescentes em trabalho
+                      infantil:
+                    </label>
+                    <span>{item.trabalhoInfantil}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>
+                      Famílias com crianças ou adolescentes em acolhimento:
+                    </label>
+                    <span>{item.acolhimento}</span>
+                  </div>
+                  <h3>Bloco 2 - Atendimentos Particularizados</h3>
+                  <div className={styles.inputGroup}>
+                    <label>Total de atendimentos no mês de referência:</label>
+                    <span>{item.atendimentosCRAS}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>
+                      Famílias encaminhadas para inclusão no Cadastro Único:
+                    </label>
+                    <span>{item.cadastroUnico}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>
+                      Famílias encaminhadas para atualização cadastral:
+                    </label>
+                    <span>{item.atualizacaoCadastral}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Indivíduos encaminhados para acesso ao BPC:</label>
+                    <span>{item.bpcIndividuos}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Famílias encaminhadas para o CREAS:</label>
+                    <span>{item.creas}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Visitas domiciliares realizadas:</label>
+                    <span>{item.visitasDomiciliares}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Auxílios-natalidade concedidos/entregues:</label>
+                    <span>{item.auxiliosNatalidade}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Auxílios-funeral concedidos/entregues:</label>
+                    <span>{item.auxiliosFuneral}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>
+                      Outros benefícios eventuais concedidos/entregues:
+                    </label>
+                    <span>{item.outrosBeneficios}</span>
+                  </div>
+                  <h3>Bloco 3 - Atendimentos Coletivos</h3>
+                  <div className={styles.inputGroup}>
+                    <label>Total de atendimentos coletivos realizados:</label>
+                    <span>{item.atendimentosColetivos}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Famílias participando de grupos PAIF:</label>
+                    <span>{item.familiasParticipantesPAIF}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Crianças de 0 a 6 anos em SCFV:</label>
+                    <span>{item.criancas06SCFV}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Crianças de 7 a 14 anos em SCFV:</label>
+                    <span>{item.criancas714SCFV}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Adolescentes de 15 a 17 anos em SCFV:</label>
+                    <span>{item.adolescentes1517SCFV}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Adultos em SCFV:</label>
+                    <span>{item.adultosSCFV}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Idosos em SCFV:</label>
+                    <span>{item.idososSCFV}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Palestras e oficinas realizadas:</label>
+                    <span>{item.palestrasOficinas}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <label>Pessoas com deficiência atendidas:</label>
+                    <span>{item.pessoasDeficiencia}</span>
+                  </div>
+
+                  <div className={styles.inputGroup}>
+                    <button onClick={() => handleEdit(item.id)}>Editar</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 };
 
-export default HistoricoCRAS;
+export default HistoricoRMA;

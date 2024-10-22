@@ -29,7 +29,13 @@ public class RmaController {
     @Autowired
     RmaService rmaService;
 
-
+    @GetMapping("/mes/{mes}")
+    public List<Rma> getRmaByMes(@PathVariable String mes) {
+        return rmaService.findByMes(mes); // Aqui estamos chamando o método correto
+    
+    }
+    
+    
 
     @GetMapping
     public ResponseEntity<List<Rma>> getRma() {

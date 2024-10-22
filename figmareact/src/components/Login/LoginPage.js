@@ -8,6 +8,7 @@ import api from "../../api/api";
 import logoImage from "../images/logo (1).png";
 import styles from "./LoginPage.module.css";
 
+
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -41,7 +42,7 @@ const LoginPage = () => {
       if (rememberMeChecked) {
         localStorage.setItem("authToken", authToken);
       } else {
-        sessionStorage.setItem("authToken", authToken);
+        localStorage.setItem("authToken", authToken);
       }
 
       const userResponse = await api.get(`/user/${decoded.jti}`);

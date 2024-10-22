@@ -15,7 +15,12 @@ import jakarta.transaction.Transactional;
 public class RmaService {
 
 @Autowired
-    RmaRepository rmaRepository;
+    private RmaRepository rmaRepository; // Certifique-se de que isso está corretamente injetado
+
+    public List<Rma> findByMes(String mes) {
+        return rmaRepository.findByMes(mes); // Certifique-se de que o repositório tem esse método
+    }
+
 
     public List<Rma> findAll() {
         return rmaRepository.findAll();

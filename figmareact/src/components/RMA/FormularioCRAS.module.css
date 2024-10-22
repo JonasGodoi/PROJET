@@ -7,7 +7,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  max-width: 958px;
+
   padding: 1px 0;
   margin: 0 auto;
 }
@@ -354,4 +354,38 @@ button {
 
 button:hover {
   background-color: #3e7a18;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.inputGroup label {
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.inputGroup input, 
+.inputGroup select { /* Aplica o mesmo estilo ao input e select */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inputGroup select { /* Caso deseje um estilo mais específico para select */
+  appearance: none; /* Remove a seta padrão do select em alguns navegadores */
+  background-color: #fff;
+}
+
+.inputGroup select:focus, 
+.inputGroup input:focus { /* Estilo para o estado de foco */
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
