@@ -1,44 +1,17 @@
-// src/components/EncaminharPessoa.js
 import React, { useState } from "react";
-import { MdDateRange, MdLocationOn, MdPerson, MdPhone, MdWork } from "react-icons/md";
-import api from "../../api/api"; // Importe o seu cliente de API
-import logoImage from "../images/logo (1).png"; // Ajuste o caminho conforme sua estrutura
-import styles from "./EncaminharPessoa.module.css"; // Atualize para o CSS do EncaminharPessoa
+import { MdDateRange, MdLocationOn, MdPerson, MdPhone, MdWork, MdArrowBack } from "react-icons/md";
+import api from "../../api/api";
+import logoImage from "../images/logo (1).png";
+import styles from "./EncaminharPessoa.module.css";
 import FormInput from "./FormInput";
 
 const formInputs = [
-  {
-    label: "Nome",
-    icon: <MdPerson />,
-    width: 412,
-    id: "username",
-  },
-  {
-    label: "CPF",
-    icon: <MdPerson />, // Considere usar um ícone mais apropriado
-    width: 217,
-    id: "cpf",
-  },
-  {
-    label: "Telefone",
-    icon: <MdPhone />,
-    width: 217,
-    id: "telefone",
-  },
+  { label: "Nome", icon: <MdPerson />, width: 412, id: "username" },
+  { label: "CPF", icon: <MdPerson />, width: 217, id: "cpf" },
+  { label: "Telefone", icon: <MdPhone />, width: 217, id: "telefone" },
   { label: "Endereço", icon: <MdLocationOn />, width: 412, id: "endereco" },
-  { 
-    label: "Data de Nascimento", 
-    icon: <MdDateRange />, 
-    width: 217, 
-    id: "data",
-    type: "date" 
-  },
-  {
-    label: "Setor",
-    icon: <MdWork />,
-    width: 217,
-    id: "setor",
-  },
+  { label: "Data de Nascimento", icon: <MdDateRange />, width: 217, id: "data", type: "date" },
+  { label: "Setor", icon: <MdWork />, width: 217, id: "setor" },
 ];
 
 function EncaminharPessoa() {
@@ -47,50 +20,33 @@ function EncaminharPessoa() {
     cpf: "",
     telefone: "",
     endereco: "",
-    data: "", // Data no formato YYYY-MM-DD
+    data: "",
     setor: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  
+  const [showHelp, setShowHelp] = useState(false);
+
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [id]: value,
-    }));
+    setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita o comportamento padrão do formulário
+    e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccess(false);
 
-    // Preparar os dados para enviar ao backend
-    const payload = {
-      username: formData.username,
-      cpf: formData.cpf,
-      telefone: formData.telefone,
-      endereco: formData.endereco,
-      data: formData.data, // Enviar como String no formato YYYY-MM-DD
-      setor: formData.setor,
-    };
+    const payload = { ...formData };
 
     try {
-      const response = await api.post("/encaminhar", payload); // Endpoint ajustado
+      const response = await api.post("/encaminhar", payload);
       console.log("Dados enviados com sucesso:", response.data);
       setSuccess(true);
-      setFormData({
-        username: "",
-        cpf: "",
-        telefone: "",
-        endereco: "",
-        data: "",
-        setor: "",
-      });
+      setFormData({ username: "", cpf: "", telefone: "", endereco: "", data: "", setor: "" });
     } catch (err) {
       console.error("Erro ao enviar dados:", err);
       setError("Ocorreu um erro ao enviar os dados. Por favor, tente novamente.");
@@ -99,20 +55,44 @@ function EncaminharPessoa() {
     }
   };
 
+  const toggleHelp = () => setShowHelp((prev) => !prev);
+
   return (
     <div className={styles.container}>
       <main className={styles.background}>
+        <button className={styles.helpButton} onClick={toggleHelp}>?</button>
+
+        {showHelp && (
+          <div className={styles.modalOverlay} onClick={toggleHelp}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+              <h2>Instruções</h2>
+              <p>Nesta página, você pode encaminhar um usuário para o setor necessário preenchendo os campos obrigatórios abaixo. Siga as instruções para garantir o correto preenchimento dos dados.</p>
+              <ol>
+                <li>Preencha o <strong>Nome</strong> do usuário corretamente.</li>
+                <li>Informe o <strong>CPF</strong> sem pontos ou traços.</li>
+                <li>Adicione um <strong>Telefone</strong> válido para contato.</li>
+                <li>Especifique o <strong>Endereço</strong> completo do usuário.</li>
+                <li>Selecione a <strong>Data de Nascimento</strong> no formato apropriado.</li>
+                <li>Escolha o <strong>Setor</strong> ao qual o usuário deve ser encaminhado.</li>
+                <li>Verifique todas as informações antes de enviar para evitar erros.</li>
+              </ol>
+              <button className={styles.closeButton} onClick={toggleHelp}>Fechar</button>
+            </div>
+          </div>
+        )}
+
+        <button
+          type="button"
+          className={styles.backButton}
+          onClick={() => window.history.back()}
+        >
+          <MdArrowBack />
+        </button>
+
         <form className={styles.formWrapper} onSubmit={handleSubmit}>
           <aside className={styles.sidebar}>
-            <img
-              loading="lazy"
-              src={logoImage}
-              alt="Logo da Secretaria"
-              className={styles.logo}
-            />
-            <h2 className={styles.sidebarTitle}>
-              Secretaria de Assistência Social de Quatiguá
-            </h2>
+            <img src={logoImage} alt="Logo da Secretaria" className={styles.logo} />
+            <h2 className={styles.sidebarTitle}>Secretaria de Assistência Social de Quatiguá</h2>
           </aside>
           <div className={styles.formContent}>
             <h1 className={styles.formTitle}>Encaminhar</h1>

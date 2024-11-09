@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { MdAccessTime, MdDateRange, MdLocationOn, MdPerson, MdPhone, MdWork } from "react-icons/md";
-import api from "../../api/api"; // Importe o seu cliente de API
-import logoImage from "../images/logo (1).png"; // Ajuste o caminho conforme sua estrutura
+import { MdAccessTime, MdDateRange, MdLocationOn, MdPerson, MdPhone, MdWork, MdArrowBack } from "react-icons/md"; // Importação da seta
+import api from "../../api/api"; 
+import logoImage from "../images/logo (1).png"; 
 import styles from "./AgendarConsulta.module.css";
 import FormInput from "./FormInput";
 
@@ -14,7 +14,7 @@ const camposFormulario = [
   },
   {
     label: "CPF",
-    icon: <MdPerson />, // ou substitua por um ícone mais apropriado, se necessário
+    icon: <MdPerson />,
     id: "cpf",
   },
   {
@@ -67,6 +67,7 @@ function AgendarConsulta() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -77,7 +78,7 @@ function AgendarConsulta() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita o comportamento padrão do formulário
+    e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -87,14 +88,14 @@ function AgendarConsulta() {
       cpf: formData.cpf,
       telefone: formData.telefone,
       endereco: formData.endereco,
-      data: formData.dataNascimento, // Formato: 'yyyy-MM-dd'
+      data: formData.dataNascimento,
       setor: formData.setor,
-      dataconsu: formData.dataConsulta, // Formato: 'yyyy-MM-dd'
-      hora: formData.horarioConsulta, // Formato: 'HH:mm'
+      dataconsu: formData.dataConsulta,
+      hora: formData.horarioConsulta,
     };
 
     try {
-      const response = await api.post("/agendar", payload); // Endpoint ajustado
+      const response = await api.post("/agendar", payload);
       console.log("Dados enviados com sucesso:", response.data);
       setSuccess(true);
       setFormData({
@@ -149,11 +150,46 @@ function AgendarConsulta() {
             <button type="submit" className={styles.submitButton} disabled={loading}>
               {loading ? "Enviando..." : "Enviar"}
             </button>
+            <button
+              type="button"
+              className={styles.helpButton}
+              onClick={() => setShowHelp(true)}
+            >
+              ?
+            </button>
+            <button
+              type="button"
+              className={styles.backButton}
+              onClick={() => window.history.back()}
+            >
+              <MdArrowBack /> {/* Exibindo a seta de voltar */}
+            </button>
           </div>
         </form>
+
+        {showHelp && (
+          <div className={styles.modalOverlay} onClick={() => setShowHelp(false)}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+              <h2>Instruções para Agendar Consulta</h2>
+              <p>Nesta página, você pode agendar uma nova consulta preenchendo os campos obrigatórios abaixo. Certifique-se de seguir as instruções de preenchimento para garantir que os dados estejam corretos.</p>
+              <ol>
+                <li><b>Nome:</b> Informe o nome completo do usuário. Mínimo de caracteres: 2, Máximo de caracteres: 50.</li>
+                <li><b>CPF:</b> Digite o número do CPF com 11 dígitos.</li>
+                <li><b>Telefone:</b> Informe o telefone de contato do usuário.</li>
+                <li><b>Endereço:</b> Insira o endereço completo.</li>
+                <li><b>Data de Nascimento:</b> Insira a data de nascimento no formato DD/MM/AAAA.</li>
+                <li><b>Setor:</b> Escolha ou insira o setor responsável pela consulta.</li>
+                <li><b>Data da Consulta:</b> Informe a data desejada no formato DD/MM/AAAA.</li>
+                <li><b>Horário da Consulta:</b> Insira o horário desejado no formato HH:MM.</li>
+                <li><b>Importante:</b> Verifique todos os campos antes de confirmar o agendamento.</li>
+              </ol>
+              <button className={styles.closeButton} onClick={() => setShowHelp(false)}>Fechar</button>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
-};
+}
 
 export default AgendarConsulta;

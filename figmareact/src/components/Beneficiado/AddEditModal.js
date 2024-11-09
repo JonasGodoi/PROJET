@@ -8,7 +8,9 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
     nis: '',
     cpf: '',
     endereco: '',
-    telefone: ''
+    telefone: '',
+    Paif: '',
+    Bolsa: ''
   });
 
   useEffect(() => {
@@ -78,7 +80,63 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
               value={formData.endereco}
               onChange={handleChange}
             />
+                      </Form.Group>
+          <Form.Group controlId="formEndereco">
+            <Form.Label>Paif</Form.Label>
+            <Form.Control
+              type="text"
+              name="endereco"
+              value={formData.endereco}
+              onChange={handleChange}
+            />
+                      </Form.Group>
+          <Form.Group controlId="formEndereco">
+            <Form.Label>Bolsa</Form.Label>
+            <Form.Control
+              type="text"
+              name="endereco"
+              value={formData.endereco}
+              onChange={handleChange}
+            />
+                      </Form.Group>
+          <Form.Group controlId="formEndereco">
+            <Form.Label>Pobreza</Form.Label>
+            <Form.Control
+              type="text"
+              name="endereco"
+              value={formData.endereco}
+              onChange={handleChange}
+            />
+                      </Form.Group>
+          <Form.Group controlId="formEndereco">
+            <Form.Label>Endereço</Form.Label>
+            <Form.Control
+              type="text"
+              name="endereco"
+              value={formData.endereco}
+              onChange={handleChange}
+            />
+                      </Form.Group>
+          <Form.Group controlId="formEndereco">
+            <Form.Label>Endereço</Form.Label>
+            <Form.Control
+              type="text"
+              name="endereco"
+              value={formData.endereco}
+              onChange={handleChange}
+            />
+                      </Form.Group>
+          <Form.Group controlId="formEndereco">
+            <Form.Label>Endereço</Form.Label>
+            <Form.Control
+              type="text"
+              name="endereco"
+              value={formData.endereco}
+              onChange={handleChange}
+            />
+
           </Form.Group>
+          
           <Form.Group controlId="formTelefone">
             <Form.Label>Telefone</Form.Label>
             <Form.Control
@@ -88,6 +146,7 @@ function AddEditModal({ show, handleClose, title, item, onSave }) {
               onChange={handleChange}
             />
           </Form.Group>
+          
         </Form>
       </Modal.Body>
       <Modal.Footer>
